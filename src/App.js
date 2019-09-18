@@ -38,7 +38,7 @@ const EdgeBackground = styled.div`
     margin: auto;
     background: url("./images/rainning.jpg") no-repeat;
     background-size: cover;
-    filter:blur(2px);
+    filter:contrast(0.7);
 `;
 const Background = styled.div`
     width: 66%;

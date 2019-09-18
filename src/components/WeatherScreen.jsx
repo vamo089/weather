@@ -1,8 +1,9 @@
-import React, from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import styled from "styled-components";
 import City from '../components/City'
-
+import Day from '../components/Day'
+import Slider from '../components/Slider'
 import '../../node_modules/open-weather-icons/dist/css/open-weather-icons.css'
 
 const Container = styled.div`
@@ -27,6 +28,7 @@ const TodayContainer = styled.div`
 	padding-left: 20px;
 	padding-right: 12px;
 	border-right: 2px solid rgba(255, 255, 255, 0.5);
+	cursor: pointer;
 	i{
 		font-size: 60px;
 		margin-right: 5px;
@@ -72,38 +74,6 @@ const Bottom = styled.div`
 	margin-left: 10px;
 `;
 
-const Day = styled.div`
-	width: 100%;
-	margin-top: 5px;
-	margin-bottom: 5px;
-	font-size: 20px;
-	text-align: center;
-	&:not(:last-child){
-		border-right: 2px solid rgba(255, 255, 255, 0.5);
-	}
-`;
-
-const DayTitle = styled.div`
-	display: flex;
-	justify-content: center;
-	p{
-		margin: 0 5px 0 0;
-		font-size: 24px;
-	}
-	i{
-		font-size: 30px;
-	}
-`;
-
-const DayTemp = styled.div`
-	margin-top: 2px;
-	font-family: 'OpenSansBold',sans-serif;
-	font-size: 26px;
-	sup{
-		font-weight: 600;
-	}
-`;
-
 const WeatherScreen = () => {
     return  (
         <Container>
@@ -119,46 +89,8 @@ const WeatherScreen = () => {
 				<City/>
 			</Top>
 			<Bottom>
-
-				<Day>
-					<DayTitle>
-						<p>Sun</p>
-						<i className='owi owi-11d'> </i>
-					</DayTitle>
-					<DayTemp>23<sup>&#8451;</sup></DayTemp>
-				</Day>
-
-				<Day>
-					<DayTitle>
-						<p>Mon</p>
-						<i className='owi owi-13d'> </i>
-					</DayTitle>
-					<DayTemp>23<sup>&#8451;</sup></DayTemp>
-				</Day>
-
-				<Day>
-					<DayTitle>
-						<p>Tue</p>
-						<i className='owi owi-01d'> </i>
-					</DayTitle>
-					<DayTemp>22.4<sup>&#8451;</sup></DayTemp>
-				</Day>
-
-				<Day>
-					<DayTitle>
-						<p>Wed</p>
-						<i className='owi owi-03d'> </i>
-					</DayTitle>
-					<DayTemp>12<sup>&#8451;</sup></DayTemp>
-				</Day>
-
-				<Day>
-					<DayTitle>
-						<p>thu</p>
-						<i className='owi owi-04d'> </i>
-					</DayTitle>
-					<DayTemp>33<sup>&#8451;</sup></DayTemp>
-				</Day>
+				<Slider/>
+				{/*<Day/>*/}
 			</Bottom>
         </Container>
     )
