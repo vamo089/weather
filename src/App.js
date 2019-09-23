@@ -1,4 +1,7 @@
 import React, {useEffect} from 'react';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import * as actions from './store/actions'
 import styled, {createGlobalStyle} from "styled-components";
 import {Normalize} from 'styled-normalize'
 import WeatherScreen from './components/WeatherScreen'
@@ -51,8 +54,9 @@ const Background = styled.div`
     border-left: solid rgba(255, 255, 255, 0.5);
 `;
 
-function App() {
+function App({initialization}) {
 	useEffect(() => {
+		initialization();
 
 		fetch('http://api.ipstack.com/check?access_key=a1ed31cbc1c7e25105c08430110aab50').then(response =>{
 			return response.json()
@@ -84,4 +88,11 @@ function App() {
 	);
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+	const {initialization} = bindActionCreators(actions, dispatch);
+	return {
+		initialization
+	}
+};
+
+export default connect(null,mapDispatchToProps)(App);

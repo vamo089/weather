@@ -1,10 +1,19 @@
 import {combineReducers} from 'redux'
-import registration from './registration'
 
+import {handleActions} from "redux-actions";
 
+const defaultState = {
 
+};
+
+const reducer = handleActions(
+    {
+        'SET_CURRENT_CITY': (state, action) => {
+            return state
+        }
+    }, defaultState);
 
 const rootReducer = combineReducers({
-    registration
+    reducer
 });
 export default rootReducer;
