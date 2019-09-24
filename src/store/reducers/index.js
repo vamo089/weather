@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux'
-
 import {handleActions} from "redux-actions";
+import { reducer as formReducer } from 'redux-form'
 
 const defaultState = {
 
@@ -8,12 +8,13 @@ const defaultState = {
 
 const reducer = handleActions(
     {
-        'SET_CURRENT_CITY': (state, action) => {
-            return state
+        'SET_CURRENT_CITY': (state, {payload}) => {
+            return {...state,currentCity: payload}
         }
     }, defaultState);
 
 const rootReducer = combineReducers({
-    reducer
+    reducer,
+	form: formReducer
 });
 export default rootReducer;

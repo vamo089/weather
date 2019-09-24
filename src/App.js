@@ -58,19 +58,19 @@ function App({initialization}) {
 	useEffect(() => {
 		initialization();
 
-		fetch('http://api.ipstack.com/check?access_key=a1ed31cbc1c7e25105c08430110aab50').then(response =>{
-			return response.json()
-		}).then(response =>{
-
-			// fetch(`https://api.openweathermap.org/data/2.5/weather?q=${response.city}&units=metric&appid=b9c419a5c04ecd308756f920bb6aa987`)
-			fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${response.city}&units=metric&appid=b9c419a5c04ecd308756f920bb6aa987`)
-
-				.then(response => {
-					return response.json()
-				}).then(json => {
-				console.log(json)
-			});
-		})
+		// fetch('http://api.ipstack.com/check?access_key=a1ed31cbc1c7e25105c08430110aab50').then(response =>{
+		// 	return response.json()
+		// }).then(response =>{
+		//
+		// 	// fetch(`https://api.openweathermap.org/data/2.5/weather?q=${response.city}&units=metric&appid=b9c419a5c04ecd308756f920bb6aa987`)
+		// 	fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${response.city}&units=metric&appid=b9c419a5c04ecd308756f920bb6aa987`)
+		//
+		// 		.then(response => {
+		// 			return response.json()
+		// 		}).then(json => {
+		// 		console.log(json)
+		// 	});
+		// })
 
 	}, []);
 
