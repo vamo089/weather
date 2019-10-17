@@ -32,6 +32,8 @@ const TodayContainer = styled.div`
 	i{
 		font-size: 60px;
 		margin-right: 5px;
+		display: flex;
+		align-items: center;
 	}
 `;
 
@@ -42,11 +44,16 @@ const TodayTitle = styled.div`
 	margin-right: 5px;    
     color: #000;
     font-size: 27px;
+    text-align: center;
+    width: 150px;
 	p{
 		margin: 0;
 	}
 	p:nth-child(1){
 		font-family: 'OpenSansBold',sans-serif;
+		&::first-letter{
+			text-transform: uppercase;
+		}
 	}
 	p:nth-child(2){
 		font-family: 'OpenSans',sans-serif;
@@ -74,30 +81,32 @@ const Bottom = styled.div`
 	margin-left: 10px;
 `;
 
-const WeatherScreen = () => {
-    return  (
-        <Container>
+const WeatherScreen = ({weather}) => {
+	return (
+		<Container>
 			<Top>
 				<TodayContainer>
-					<TodayTitle>
-						<p>Snow</p>
+					<TodayTitle title={weather.description}>
+						<p>{weather.main}</p>
 						<p>Today</p>
 					</TodayTitle>
-					<i className='owi owi-10d'> </i>
-					<TodayTemp>17 <sup>&#8451;</sup></TodayTemp>
+					<i className={`owi owi-${weather.icon}`}> </i>
+					<TodayTemp>{weather.temp} <sup>&#8451;</sup></TodayTemp>
 				</TodayContainer>
 				<City/>
 			</Top>
 			<Bottom>
-				<Slider/>
-				{/*<Day/>*/}
+				{/*<Slider/>*/}
+				<Day/>
 			</Bottom>
-        </Container>
-    )
+		</Container>
+	)
 };
 
-function mapStateToProps(state) {
-    return {};
-}
+const mapStateToProps = (state) => {
+	return {
+		weather: state.reducer.weather
+	}
+};
 
-export default connect(mapStateToProps,)(WeatherScreen);
+export default connect(mapStateToProps, null)(WeatherScreen);

@@ -40,54 +40,33 @@ const DayTemp = styled.div`
 	}
 `;
 
-const Day = () => {
+const Day = ({dailyWeather}) => {
 	return (
 		<Container>
-			<DayContainer>
-				<DayTitle>
-					<p>Sun</p>
-					<i className='owi owi-11d'> </i>
-				</DayTitle>
-				<DayTemp>23<sup>&#8451;</sup></DayTemp>
-			</DayContainer>
-
-			<DayContainer>
-				<DayTitle>
-					<p>Mon</p>
-					<i className='owi owi-13d'> </i>
-				</DayTitle>
-				<DayTemp>23<sup>&#8451;</sup></DayTemp>
-			</DayContainer>
-
-			<DayContainer>
-				<DayTitle>
-					<p>Tue</p>
-					<i className='owi owi-01d'> </i>
-				</DayTitle>
-				<DayTemp>22.4<sup>&#8451;</sup></DayTemp>
-			</DayContainer>
-
-			<DayContainer>
-				<DayTitle>
-					<p>Wed</p>
-					<i className='owi owi-03d'> </i>
-				</DayTitle>
-				<DayTemp>12<sup>&#8451;</sup></DayTemp>
-			</DayContainer>
-
-			<DayContainer>
-				<DayTitle>
-					<p>thu</p>
-					<i className='owi owi-04d'> </i>
-				</DayTitle>
-				<DayTemp>33<sup>&#8451;</sup></DayTemp>
-			</DayContainer>
+			{
+				dailyWeather &&
+				dailyWeather.map((item,i) =>{
+					const {day,hourly} = item;
+					const {temp,icon,description} = hourly.filter(item => item.hour === '12am')[0];
+					return(
+						<DayContainer key={i} title={description}>
+							<DayTitle>
+								<p>{day.slice(0,3)}</p>
+								<i className={`owi owi-${icon}`}> </i>
+							</DayTitle>
+							<DayTemp>{temp}<sup>&#8451;</sup></DayTemp>
+						</DayContainer>
+					)
+				})
+			}
 		</Container>
 	);
 };
 
-function mapStateToProps(state) {
-	return {};
-}
+const mapStateToProps = (state) => {
+	return {
+		dailyWeather: state.reducer.dailyWeather
+	}
+};
 
 export default connect(mapStateToProps,)(Day);
