@@ -47,7 +47,7 @@ const Day = ({dailyWeather}) => {
 				dailyWeather &&
 				dailyWeather.map((item,i) =>{
 					const {day,hourly} = item;
-					const {temp,icon,description} = hourly.filter(item => item.hour === '12am')[0];
+					const {temp,icon,description} = hourly.filter(item => item.hour === '12am' || '03am')[0];
 					return(
 						<DayContainer key={i} title={description}>
 							<DayTitle>

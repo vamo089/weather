@@ -9,6 +9,10 @@ const defaultState = {
 		temp: null,
 		description: null,
 		icon: null
+	},
+	cityList: {
+		data: [],
+		loader: false
 	}
 };
 
@@ -21,8 +25,10 @@ const reducer = handleActions(
 			return {...state, weather: payload}
 		},
 		'SAVE_DAILY_WEATHER': (state, {payload}) => {
-
 			return {...state,dailyWeather: saveDailyWeather(payload)}
+		},
+		'SAVE_CITY_LIST': (state, {payload}) => {
+			return {...state,cityList: payload}
 		}
 	}, defaultState);
 
