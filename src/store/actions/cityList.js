@@ -35,7 +35,7 @@ export const getCitiesList = ({target}) => {
 	}
 };
 
-const getCitiesListRequest = (value) =>{
+const getCitiesListRequest = value =>{
 	return dispatch =>{
 		const cityList = [];
 		fetch(`https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${value}`, {
@@ -47,7 +47,7 @@ const getCitiesListRequest = (value) =>{
 			.then(response => response.json())
 			.then(({data}) => {
 				if(data.length){
-					data.forEach((item, i) => {
+					data.forEach(item => {
 						const {city} = item;
 						getCityWeatherRequest(city)
 							.then((response) => {
@@ -68,7 +68,7 @@ const getCitiesListRequest = (value) =>{
 	}
 };
 
-export const setWeatherFromList = (id) => {
+export const setWeatherFromList = id => {
 	return (dispatch,getState) => {
 		const {cityList} = getState().reducer;
 		const cityName = cityList[id].city;

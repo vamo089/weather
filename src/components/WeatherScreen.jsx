@@ -1,10 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import styled from "styled-components";
-import Day from '../components/Day'
+import Daily from '../components/Daily'
 import Slider from '../components/Slider'
 import '../../node_modules/open-weather-icons/dist/css/open-weather-icons.css'
 import CityField from "./CityField";
+import * as actions from "../store/actions";
+import {bindActionCreators} from "redux";
 
 const Container = styled.div`
 	display: flex;
@@ -28,7 +30,7 @@ const TodayContainer = styled.div`
 	padding-left: 20px;
 	padding-right: 12px;
 	border-right: 2px solid rgba(255, 255, 255, 0.5);
-	//cursor: pointer;
+	cursor: ${props => props.slider ? 'pointer' : 'auto'};
 	i{
 		font-size: 60px;
 		margin-right: 5px;
@@ -80,11 +82,11 @@ const Bottom = styled.div`
 	margin-left: 10px;
 `;
 
-const WeatherScreen = ({weather}) => {
+const WeatherScreen = ({weather, slider, setSlider}) => {
 	return (
 		<Container>
 			<Top>
-				<TodayContainer>
+				<TodayContainer slider={slider}>
 					<TodayTitle title={weather.description}>
 						<p>{weather.main}</p>
 						<p>Today</p>
@@ -95,17 +97,24 @@ const WeatherScreen = ({weather}) => {
 				<CityField/>
 			</Top>
 			<Bottom>
-				{/*<Slider/>*/}
-				<Day/>
+				{slider ? <Slider/> : <Daily/>}
 			</Bottom>
 		</Container>
 	)
 };
 
-const mapStateToProps = (state) => {
+const mapDispatchToProps = dispatch => {
+	const {setSlider} = bindActionCreators(actions, dispatch);
 	return {
-		weather: state.reducer.weather
+		setSlider
 	}
 };
 
-export default connect(mapStateToProps, null)(WeatherScreen);
+const mapStateToProps = state => {
+	return {
+		weather: state.reducer.weather,
+		slider: state.reducer.slider
+	}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WeatherScreen);

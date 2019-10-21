@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import styled from "styled-components";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import * as actions from "../store/actions";
+import {bindActionCreators} from "redux";
 const Container = styled.div`
     display: flex;
     width: ${props => `${props.width }0%`};
@@ -32,16 +34,16 @@ const markStyle = {
 	}
 };
 
-const Day = () => {
-	let hoursCount = 8;
+const SliderBody = ({slider}) => {
+	let hoursCount = slider.length;
 	let data = {};
 	for (let i = 0; i < hoursCount; i++) {
-		let step = 100/hoursCount;
-
+		const step = 100/hoursCount;
+		const {hour} = slider[i];
 
 		data[step * (i + 1)] = {
 			style: markStyle,
-			label: <span>3<strong style={markStyle.strong}>am</strong> </span>,
+			label: <span>{parseFloat(hour)}<strong style={markStyle.strong}>{hour.split(parseFloat(hour))[1]}</strong> </span>,
 		}
 	}
 
@@ -52,8 +54,17 @@ const Day = () => {
 	);
 };
 
-function mapStateToProps(state) {
-	return {};
-}
+const mapDispatchToProps = dispatch => {
+	const {openHourlySlider} = bindActionCreators(actions, dispatch);
+	return {
+		openHourlySlider
+	}
+};
 
-export default connect(mapStateToProps,)(Day);
+const mapStateToProps = state => {
+	return {
+		slider: state.reducer.slider
+	}
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(SliderBody);

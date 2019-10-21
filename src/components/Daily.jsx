@@ -1,6 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import styled from "styled-components";
+import * as actions from "../store/actions";
+import {bindActionCreators} from "redux";
 
 const Container = styled.div`
     display: flex;
@@ -40,7 +42,7 @@ const DayTemp = styled.div`
 	}
 `;
 
-const Day = ({dailyWeather}) => {
+const Daily = ({dailyWeather, openHourlySlider}) => {
 	return (
 		<Container>
 			{
@@ -49,7 +51,7 @@ const Day = ({dailyWeather}) => {
 					const {day,hourly} = item;
 					const {temp,icon,description} = hourly.filter(item => item.hour === '12am' || '03am')[0];
 					return(
-						<DayContainer key={i} title={description}>
+						<DayContainer key={i} title={description} onClick={()=>{openHourlySlider(i)}}>
 							<DayTitle>
 								<p>{day.slice(0,3)}</p>
 								<i className={`owi owi-${icon}`}> </i>
@@ -63,10 +65,17 @@ const Day = ({dailyWeather}) => {
 	);
 };
 
-const mapStateToProps = (state) => {
+const mapDispatchToProps = dispatch => {
+	const {openHourlySlider} = bindActionCreators(actions, dispatch);
+	return {
+		openHourlySlider
+	}
+};
+
+const mapStateToProps = state => {
 	return {
 		dailyWeather: state.reducer.dailyWeather
 	}
 };
 
-export default connect(mapStateToProps,)(Day);
+export default connect(mapStateToProps,mapDispatchToProps)(Daily);

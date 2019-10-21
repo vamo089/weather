@@ -10,7 +10,8 @@ const defaultState = {
 		description: null,
 		icon: null
 	},
-	cityList: null
+	cityList: null,
+	slider: null
 };
 
 const reducer = handleActions(
@@ -26,6 +27,9 @@ const reducer = handleActions(
 		},
 		'SAVE_CITY_LIST': (state, {payload}) => {
 			return {...state,cityList: payload}
+		},
+		'SET_SLIDER': (state, {payload}) => {
+			return {...state,slider: payload}
 		}
 	}, defaultState);
 
@@ -34,7 +38,7 @@ const saveDailyWeather = (days) => {
 	let dayFlag;
 	let dailyCollection = [];
 
-	days.forEach((item, i) => {
+	days.forEach(item => {
 		const date = moment.unix(item.dt);
 		const day = date.day();
 		const dayName = date.format('dddd');

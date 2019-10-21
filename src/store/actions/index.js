@@ -1,6 +1,7 @@
 import {createActions} from "redux-actions";
 import {change} from 'redux-form'
 export {saveCityList,getCitiesList,setWeatherFromList} from './cityList'
+export {openHourlySlider,setSlider} from './slider'
 export const {
 	setCityWeather,
 	saveDailyWeather,
