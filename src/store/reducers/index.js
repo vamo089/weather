@@ -4,16 +4,13 @@ import {handleActions} from "redux-actions";
 import {reducer as formReducer} from 'redux-form'
 
 const defaultState = {
-	currentCity: null,
 	weather: {
+		city: null,
 		temp: null,
 		description: null,
 		icon: null
 	},
-	cityList: {
-		data: [],
-		loader: false
-	}
+	cityList: null
 };
 
 const reducer = handleActions(

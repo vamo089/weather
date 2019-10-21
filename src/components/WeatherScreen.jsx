@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import styled from "styled-components";
-import City from '../components/City'
 import Day from '../components/Day'
 import Slider from '../components/Slider'
 import '../../node_modules/open-weather-icons/dist/css/open-weather-icons.css'
+import CityField from "./CityField";
 
 const Container = styled.div`
 	display: flex;
@@ -28,7 +28,7 @@ const TodayContainer = styled.div`
 	padding-left: 20px;
 	padding-right: 12px;
 	border-right: 2px solid rgba(255, 255, 255, 0.5);
-	cursor: pointer;
+	//cursor: pointer;
 	i{
 		font-size: 60px;
 		margin-right: 5px;
@@ -45,7 +45,6 @@ const TodayTitle = styled.div`
     color: #000;
     font-size: 27px;
     text-align: center;
-    width: 150px;
 	p{
 		margin: 0;
 	}
@@ -93,7 +92,7 @@ const WeatherScreen = ({weather}) => {
 					<i className={`owi owi-${weather.icon}`}> </i>
 					<TodayTemp>{weather.temp} <sup>&#8451;</sup></TodayTemp>
 				</TodayContainer>
-				<City/>
+				<CityField/>
 			</Top>
 			<Bottom>
 				{/*<Slider/>*/}

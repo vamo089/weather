@@ -43,20 +43,20 @@ const CityListItem = styled.li`
 	}
 `;
 
-let City = ({getCitiesList, cityList}) => {
+let CityField = ({getCitiesList, cityList,setWeatherFromList}) => {
 	return (
 		<Container>
 			<Input onChange={getCitiesList} placeholder='city' name='city' component='input' type='text'
 				   autoComplete='off'/>
 			<CityList>
-				{cityList.loader && <Loader />}
+				{cityList && !cityList.length && <Loader />}
 				{
-					cityList.data &&
-					cityList.data.map((item, i) => {
-						const {city, country} = item;
+					cityList &&
+					cityList.map((item, i) => {
+						const {city, countryCode} = item;
 						return (
-							<CityListItem key={i}>
-								{city}, {country}
+							<CityListItem key={i} onClick={()=>{setWeatherFromList(i)}}>
+								{city}, {countryCode}
 							</CityListItem>
 						)
 					})
@@ -66,9 +66,9 @@ let City = ({getCitiesList, cityList}) => {
 	);
 };
 
-City = reduxForm({
+CityField = reduxForm({
 	form: 'city'
-})(City);
+})(CityField);
 
 const mapStateToProps = (state) => {
 	return {
@@ -77,10 +77,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-	const {getCitiesList} = bindActionCreators(actions, dispatch);
+	const {getCitiesList,setWeatherFromList} = bindActionCreators(actions, dispatch);
 	return {
-		getCitiesList
+		getCitiesList,
+		setWeatherFromList
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(City);
+export default connect(mapStateToProps, mapDispatchToProps)(CityField);
