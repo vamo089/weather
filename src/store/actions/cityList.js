@@ -1,7 +1,8 @@
-import {getCityWeatherRequest,getDaysWeather, saveDailyWeather, setCityWeather} from "./index";
+import {getCityWeatherRequest,getDaysWeather, setCityWeather} from "./index";
 import {createActions} from "redux-actions";
 import {change} from "redux-form";
 import {setSlider} from "./slider";
+import {formDailyWeather} from "./daily";
 
 
 export const {
@@ -81,6 +82,6 @@ export const setWeatherFromList = id => {
 		dispatch(change('city', 'city', cityName));
 		dispatch(setCityWeather(cityList[id]));
 		dispatch(saveCityList(null));
-		getDaysWeather(cityName).then(list => dispatch(saveDailyWeather(list)))
+		getDaysWeather(cityName).then(list => dispatch(formDailyWeather(list)))
 	}
 };
