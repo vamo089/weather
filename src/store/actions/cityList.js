@@ -1,6 +1,7 @@
 import {getCityWeatherRequest,getDaysWeather, saveDailyWeather, setCityWeather} from "./index";
 import {createActions} from "redux-actions";
 import {change} from "redux-form";
+import {setSlider} from "./slider";
 
 
 export const {
@@ -14,9 +15,9 @@ export const {
 let getCitiesListDelay;
 
 export const getCitiesList = ({target}) => {
-	return dispatch => {
+	return (dispatch,getState) => {
 		const {value} = target;
-		const SUGGESTION_DELAY_TIME = 500;
+		const SUGGESTION_DELAY_TIME = 1000;
 
 		if (value) {
 			dispatch(saveCityList([]));
@@ -31,6 +32,11 @@ export const getCitiesList = ({target}) => {
 					dispatch(getCitiesListRequest(value))
 				}, SUGGESTION_DELAY_TIME);
 			}
+		}
+
+		const {slider} = getState().reducer;
+		if(slider){
+			dispatch(setSlider(null))
 		}
 	}
 };

@@ -34,11 +34,12 @@ const markStyle = {
 	}
 };
 
-const SliderBody = ({slider}) => {
+const SliderBody = ({slider,sliderWasChange}) => {
 	let hoursCount = slider.length;
 	let data = {};
+	let step;
 	for (let i = 0; i < hoursCount; i++) {
-		const step = 100/hoursCount;
+		step = 100/hoursCount;
 		const {hour} = slider[i];
 
 		data[step * (i + 1)] = {
@@ -49,15 +50,18 @@ const SliderBody = ({slider}) => {
 
 	return (
 		<Container width={hoursCount}>
-			<Slider handleStyle={dotStyle} dotStyle={dotStyle} trackStyle={trackStyle} railStyle={railStyle} marks={data} step={null} />
+			<Slider handleStyle={dotStyle} dotStyle={dotStyle} trackStyle={trackStyle}
+					railStyle={railStyle} marks={data} step={null}
+					onAfterChange={(splitedCount)=>{sliderWasChange(splitedCount,step)}}/>
 		</Container>
 	);
 };
 
 const mapDispatchToProps = dispatch => {
-	const {openHourlySlider} = bindActionCreators(actions, dispatch);
+	const {openHourlySlider,sliderWasChange} = bindActionCreators(actions, dispatch);
 	return {
-		openHourlySlider
+		openHourlySlider,
+		sliderWasChange
 	}
 };
 

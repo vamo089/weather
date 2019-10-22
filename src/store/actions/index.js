@@ -1,7 +1,8 @@
 import {createActions} from "redux-actions";
 import {change} from 'redux-form'
+import {setSlider} from "./slider";
 export {saveCityList,getCitiesList,setWeatherFromList} from './cityList'
-export {openHourlySlider,setSlider} from './slider'
+export {openHourlySlider,setSlider,sliderWasChange} from './slider'
 export const {
 	setCityWeather,
 	saveDailyWeather,
@@ -14,7 +15,21 @@ export const {
 
 
 export const initialization = () => {
-	return dispatch => {
+	return (dispatch,getState) => {
+		dispatch(setMainScreen());
+
+		const TIME_INTERVAL_FOR_UPDATING = 60000;
+		setInterval(()=>{
+			const {slider} = getState().reducer;
+			if(!slider){
+				dispatch(setMainScreen());
+			}
+		},TIME_INTERVAL_FOR_UPDATING);
+	}
+};
+
+const setMainScreen = () =>{
+    return dispatch =>{
 		detectCityRequest()
 			.then(({city}) => {
 				dispatch(change('city', 'city', city));
@@ -24,6 +39,7 @@ export const initialization = () => {
 			})
 	}
 };
+
 
 const detectCityRequest = () => {
 	return fetch('http://api.ipstack.com/check?access_key=a1ed31cbc1c7e25105c08430110aab50')
@@ -51,4 +67,12 @@ export const getDaysWeather = (city) => {
 		.then(response => {
 			return response.json()
 		}).then(data => data.list)
+};
+
+
+export const toMainScreen = () => {
+	return dispatch => {
+		dispatch(setSlider(null));
+		dispatch(setMainScreen())
+	}
 };

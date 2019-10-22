@@ -54,6 +54,7 @@ const saveDailyWeather = (days) => {
 			const some = dailyCollection.filter(item => item.day === dayName)[0];
 
 			some.hourly.push({
+				dayName,
 				main, icon,
 				hour, description,
 				temp: item.main.temp.toFixed(1)

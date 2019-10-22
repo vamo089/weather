@@ -64,7 +64,8 @@ const TodayTemp = styled.div`
 	align-self: center;
 	font-size: 35px;
 	white-space: nowrap;
-	font-family: 'OpenSansBold',sans-serif;  
+	font-family: 'OpenSansBold',sans-serif;
+	width: 85px;  
   sup{
 	top: -1em;
 	left: -0.5em;
@@ -82,14 +83,14 @@ const Bottom = styled.div`
 	margin-left: 10px;
 `;
 
-const WeatherScreen = ({weather, slider, setSlider}) => {
+const WeatherScreen = ({weather, slider,toMainScreen}) => {
 	return (
 		<Container>
 			<Top>
-				<TodayContainer slider={slider}>
+				<TodayContainer slider={slider} onClick={slider && toMainScreen}>
 					<TodayTitle title={weather.description}>
 						<p>{weather.main}</p>
-						<p>Today</p>
+						<p>{weather.dayName || 'Today'}</p>
 					</TodayTitle>
 					<i className={`owi owi-${weather.icon}`}> </i>
 					<TodayTemp>{weather.temp} <sup>&#8451;</sup></TodayTemp>
@@ -104,9 +105,9 @@ const WeatherScreen = ({weather, slider, setSlider}) => {
 };
 
 const mapDispatchToProps = dispatch => {
-	const {setSlider} = bindActionCreators(actions, dispatch);
+	const {toMainScreen} = bindActionCreators(actions, dispatch);
 	return {
-		setSlider
+		toMainScreen
 	}
 };
 
