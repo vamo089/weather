@@ -1,5 +1,5 @@
 import {createActions} from "redux-actions";
-import {setCityWeather} from "./index";
+import {saveCityList, setCityWeather} from "./index";
 
 export const {
 	setSlider,
@@ -14,6 +14,7 @@ export const openHourlySlider  = id =>{
 		const {dailyWeather} = getState().reducer;
 		const {hourly} = dailyWeather[id];
 		dispatch(setSlider(hourly));
+		dispatch(saveCityList(null));
 		const {slider} = getState().reducer;
 		dispatch(setCityWeather(slider[0]));
 	}

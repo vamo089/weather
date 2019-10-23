@@ -39,7 +39,7 @@ const EdgeBackground = styled.div`
     width: 100%;
     min-height: 100vh;
     margin: auto;
-    background: url("./images/rainning.jpg") no-repeat;
+    background: url("./images/background.jpg") no-repeat;
     background-size: cover;
     filter:contrast(0.7);
 `;
@@ -47,7 +47,7 @@ const Background = styled.div`
     width: 66%;
     margin: auto;
     min-height: 100vh;
-    background: url("./images/rainning.jpg") no-repeat;
+    background: url("./images/background.jpg") no-repeat;
     background-size: cover;
     filter: brightness(0.6);
     border-right: solid rgba(255, 255, 255, 0.5);

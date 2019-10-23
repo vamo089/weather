@@ -2,6 +2,7 @@ import {createActions} from "redux-actions";
 import {change} from 'redux-form'
 import {setSlider} from "./slider";
 import {formDailyWeather} from "./daily";
+import {getFormValues} from 'redux-form'
 export {saveCityList,getCitiesList,setWeatherFromList} from './cityList'
 export {openHourlySlider,setSlider,sliderWasChange} from './slider'
 export const {
@@ -72,8 +73,18 @@ export const getDaysWeather = (city) => {
 
 
 export const toMainScreen = () => {
-	return dispatch => {
+	return (dispatch,getState) => {
+		const {city} = getFormValues('city')(getState());
+
+		getCityWeatherRequest(city)
+			.then((response) => {
+				if(response){
+					dispatch(setCityWeather(response));
+					getDaysWeather(city).then(list => dispatch(formDailyWeather(list)));
+				}else{
+					dispatch(setMainScreen())
+				}
+			});
 		dispatch(setSlider(null));
-		dispatch(setMainScreen())
 	}
 };
