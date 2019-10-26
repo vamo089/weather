@@ -44,7 +44,7 @@ const setMainScreen = () =>{
 
 
 const detectCityRequest = () => {
-	return fetch('http://api.ipstack.com/check?access_key=a1ed31cbc1c7e25105c08430110aab50')
+	return fetch('https://api.ipgeolocation.io/ipgeo?apiKey=1cde62f22bfd4c8387f89ddef6daf3a0&fields=city')
 		.then(response => response.json());
 };
 
