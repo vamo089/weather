@@ -5,6 +5,7 @@ import * as actions from '../store/actions'
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import Loader from "./Loader";
+import PropTypes from 'prop-types';
 
 const Container = styled.div`
 	margin: auto;
@@ -70,6 +71,11 @@ CityField = reduxForm({
 	form: 'city'
 })(CityField);
 
+CityField.propTypes = {
+	getCitiesList: PropTypes.func,
+	cityList: PropTypes.array,
+	setWeatherFromList: PropTypes.func
+};
 const mapStateToProps = (state) => {
 	return {
 		cityList: state.reducer.cityList

@@ -5,6 +5,7 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import * as actions from "../store/actions";
 import {bindActionCreators} from "redux";
+import PropTypes from "prop-types";
 const Container = styled.div`
     display: flex;
     width: ${props => `${props.width }0%`};
@@ -55,6 +56,11 @@ const SliderBody = ({slider,sliderWasChange}) => {
 					onAfterChange={(splitedCount)=>{sliderWasChange(splitedCount,step)}}/>
 		</Container>
 	);
+};
+
+SliderBody.propTypes = {
+	slider: PropTypes.array,
+	sliderWasChange: PropTypes.func,
 };
 
 const mapDispatchToProps = dispatch => {

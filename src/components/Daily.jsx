@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import styled from "styled-components";
 import * as actions from "../store/actions";
 import {bindActionCreators} from "redux";
+import PropTypes from "prop-types";
 
 const Container = styled.div`
     display: flex;
@@ -63,6 +64,11 @@ const Daily = ({dailyWeather, openHourlySlider}) => {
 			}
 		</Container>
 	);
+};
+
+Daily.propTypes = {
+	dailyWeather: PropTypes.array,
+	openHourlySlider: PropTypes.func
 };
 
 const mapDispatchToProps = dispatch => {

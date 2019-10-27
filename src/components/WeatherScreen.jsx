@@ -7,6 +7,7 @@ import '../../node_modules/open-weather-icons/dist/css/open-weather-icons.css'
 import CityField from "./CityField";
 import * as actions from "../store/actions";
 import {bindActionCreators} from "redux";
+import PropTypes from "prop-types";
 
 const Container = styled.div`
 	display: flex;
@@ -102,6 +103,12 @@ const WeatherScreen = ({weather, slider,toMainScreen}) => {
 			</Bottom>
 		</Container>
 	)
+};
+
+WeatherScreen.propTypes = {
+	weather: PropTypes.object,
+	slider: PropTypes.array,
+	toMainScreen:PropTypes.func
 };
 
 const mapDispatchToProps = dispatch => {
