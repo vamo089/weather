@@ -2,7 +2,7 @@
 
 ![](https://github.com/vamo089/weather/blob/master/public/images/preview.gif)
 
-Modest but quite useflul app which can **detect your location** or **show you a list of cities**, also there is a **hourly weather**!!
+Simple but quite useflul app which can **detect your location** or **show you a list of cities**, also the application **shows the weather conditions by hours**!!
 
 
 #### Work stack:
