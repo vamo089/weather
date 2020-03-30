@@ -1,10 +1,11 @@
-import React from "react";
-import { Field, reduxForm } from "redux-form";
+import React, { useState } from "react";
+import { change, Field, reduxForm } from "redux-form";
 import styled from "styled-components";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import Loader from "./Loader";
 import { getCitiesList } from "services/getCitiesList";
-import { useSelector } from "store";
+import { GetCityWeatherRequestCallBack } from "services/getCityWeatherRequest";
+import { getDaysWeather } from "services/getDaysWeather";
 
 const Container = styled.div`
   margin: auto;
@@ -45,19 +46,23 @@ const CityListItem = styled.li`
   }
 `;
 
-interface CityListProps {
-  city: string;
-  countryCode: string;
-}
-
 let CityField = () => {
-  const cityList = useSelector<CityListProps[]>(state => state.cityList);
+  const dispatch = useDispatch();
+  const [cityList, setCityList] = useState<
+    GetCityWeatherRequestCallBack[] | null
+  >([]);
+  const [loader, setLoader] = useState<boolean>(false);
+
   return (
     <Container>
       <InputWrapper>
         <Field
           onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-            console.debug(getCitiesList(target.value));
+            setLoader(true);
+            getCitiesList(target.value).then((respond: any) => {
+              setCityList(respond);
+              setLoader(false);
+            });
           }}
           placeholder="city"
           name="city"
@@ -66,15 +71,20 @@ let CityField = () => {
         />
       </InputWrapper>
       <CityList>
-        {cityList && !cityList.length && <Loader />}
-        {cityList &&
+        {loader && <Loader />}
+
+        {Array.isArray(cityList) &&
           cityList.map((item, i) => {
             const { city, countryCode } = item;
             return (
               <CityListItem
                 key={i}
                 onClick={() => {
-                  // setWeatherFromList(i);
+                  dispatch(change("city", "city", city));
+                  setCityList(null);
+                  getDaysWeather(city).then((response) =>
+                    console.debug(response)
+                  );
                 }}
               >
                 {city}, {countryCode}
@@ -91,6 +101,6 @@ export default connect(
   null
 )(
   reduxForm({
-    form: "city"
+    form: "city",
   })(CityField)
 );
