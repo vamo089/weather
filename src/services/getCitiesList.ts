@@ -1,9 +1,10 @@
 import {
   getCityWeatherRequest,
-  GetCityWeatherRequestCallBack
+  GetCityWeatherRequestCallBack,
 } from "./getCityWeatherRequest";
+import { debounce } from "helpers/debounce";
 
-type GetCitiesListType = (city: string) => Promise<GetCityWeatherRequestCallBack>
+type GetCitiesListType = (city: string) => Promise<any>;
 
 type GetCitiesListRequestType = (value: string) => Promise<any>;
 
@@ -25,30 +26,11 @@ interface GetCitiesListRequestAnswer {
   ];
 }
 
-let getCitiesListDelay: number;
+export const getCitiesList: GetCitiesListType = debounce((value) => {
+  return getCitiesListRequest(value).then((response) => response);
+}, 1000);
 
-export const getCitiesList: GetCitiesListType = async value => {
-  const SUGGESTION_DELAY_TIME = 1000;
-  if (value) {
-    if (!getCitiesListDelay) {
-      getCitiesListDelay = await setTimeout(async () => {
-        return await getCitiesListRequest(value);
-      }, SUGGESTION_DELAY_TIME);
-    } else {
-      clearTimeout(getCitiesListDelay);
-      getCitiesListDelay = await setTimeout(async () => {
-        return await getCitiesListRequest(value);
-      }, SUGGESTION_DELAY_TIME);
-    }
-  }
-
-  // const { slider } = getState().reducer;
-  // if (slider) {
-  //   dispatch(setSlider(null));
-  // }
-};
-
-const getCitiesListRequest: GetCitiesListRequestType = async value => {
+const getCitiesListRequest: GetCitiesListRequestType = async (value) => {
   const cityList: GetCityWeatherRequestCallBack[] = [];
 
   const response: GetCitiesListRequestAnswer = await fetch(
@@ -56,10 +38,10 @@ const getCitiesListRequest: GetCitiesListRequestType = async value => {
     {
       headers: {
         "x-rapidapi-host": "wft-geo-db.p.rapidapi.com",
-        "x-rapidapi-key": "5dfbe0fb22msh73b75a7c5fb4eb4p14268ajsn2c16ebc4028b"
-      }
+        "x-rapidapi-key": "5dfbe0fb22msh73b75a7c5fb4eb4p14268ajsn2c16ebc4028b",
+      },
     }
-  ).then(response => response.json());
+  ).then((response) => response.json());
   const { data } = response;
   if (data.length) {
     for (const item of data) {
