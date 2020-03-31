@@ -41,18 +41,23 @@ export const getDaysWeather: GetDaysWeatherRequest = async (city) => {
     `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=b9c419a5c04ecd308756f920bb6aa987`
   )
     .then((response) => response.json())
-    .then(({ list }) => console.debug(formDailyWeather(list)));
+    .then(({ list }) => formDailyWeather(list));
 };
 
 type formDailyWeatherType = (
   days: GetDaysWeatherResponse[]
 ) => {
-  dayName: string;
-  main: any;
-  icon: string;
-  hour: string;
-  description: string;
-  temp: number;
+  day: string;
+  hourly: [
+    {
+      dayName: string;
+      main: any;
+      icon: string;
+      hour: string;
+      description: string;
+      temp: number;
+    }
+  ];
 }[];
 
 export const formDailyWeather: formDailyWeatherType = (days) => {

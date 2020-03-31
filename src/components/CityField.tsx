@@ -4,8 +4,9 @@ import styled from "styled-components";
 import { connect, useDispatch } from "react-redux";
 import Loader from "./Loader";
 import { getCitiesList } from "services/getCitiesList";
-import { GetCityWeatherRequestCallBack } from "services/getCityWeatherRequest";
+import { GetCityWeatherRequestCallBack } from "services/getCityWeather";
 import { getDaysWeather } from "services/getDaysWeather";
+import { createState } from "store/createState";
 
 const Container = styled.div`
   margin: auto;
@@ -46,11 +47,15 @@ const CityListItem = styled.li`
   }
 `;
 
+export const daysWeather = createState(null);
+
 let CityField = () => {
   const dispatch = useDispatch();
+
   const [cityList, setCityList] = useState<
     GetCityWeatherRequestCallBack[] | null
   >([]);
+
   const [loader, setLoader] = useState<boolean>(false);
 
   return (
@@ -83,7 +88,7 @@ let CityField = () => {
                   dispatch(change("city", "city", city));
                   setCityList(null);
                   getDaysWeather(city).then((response) =>
-                    console.debug(response)
+                    daysWeather.set(response)
                   );
                 }}
               >
