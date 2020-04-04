@@ -1,7 +1,7 @@
 import {
-  getCityWeatherRequest,
+  getCityWeather,
   GetCityWeatherRequestCallBack,
-} from "./getCityWeatherRequest";
+} from "./getCityWeather";
 import { debounce } from "helpers/debounce";
 
 type GetCitiesListType = (city: string) => Promise<any>;
@@ -46,7 +46,7 @@ const getCitiesListRequest: GetCitiesListRequestType = async (value) => {
   if (data.length) {
     for (const item of data) {
       const { city, region } = item;
-      const response = await getCityWeatherRequest(city);
+      const response = await getCityWeather(city);
 
       const lastRequest =
         data[data.length - 1].city === city &&

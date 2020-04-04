@@ -27,7 +27,7 @@ interface Fetch {
   weather: [{ id: number; main: string; description: string; icon: string }];
   name: string;
 }
-export const getCityWeatherRequest: getCityWeatherRequestType = async city => {
+export const getCityWeather: getCityWeatherRequestType = async city => {
   const respond: Fetch = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=b9c419a5c04ecd308756f920bb6aa987`
   ).then(response => response.json());
