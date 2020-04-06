@@ -4,6 +4,7 @@ type getCityWeatherRequestType = (
 
 export interface GetCityWeatherRequestCallBack {
   countryCode?: string;
+  dayName?: string;
   temp: string;
   icon: string;
   description: string;

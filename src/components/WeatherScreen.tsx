@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { Daily } from "../components/Daily";
-import Slider from "../components/Slider";
+import { Daily } from "components/Daily";
+import { Slider } from "components/Slider";
 import "../../node_modules/open-weather-icons/dist/css/open-weather-icons.css";
 import CityField from "./CityField";
-import { weatherScreenData } from "../App";
+import { createState } from "store/createState";
+import { DailyInterface } from "services/getDaysWeather";
+import { weatherScreenData } from "App";
 
 const Container = styled.div`
   display: flex;
@@ -20,7 +22,7 @@ const Top = styled.div`
   flex-direction: row;
 `;
 
-const TodayContainer = styled.div`
+const TodayContainer = styled.div<{ slider: boolean }>`
   display: flex;
   flex-direction: row;
   margin-top: 10px;
@@ -81,15 +83,19 @@ const Bottom = styled.div`
   margin-left: 10px;
 `;
 
+export const sliderData = createState<DailyInterface[] | null>(null);
+
 export const WeatherScreen = () => {
   const weather = weatherScreenData.get();
-  const slider = false;
-  const toMainScreen = false;
+  const slider = sliderData.get();
   return (
     weather && (
       <Container>
         <Top>
-          <TodayContainer slider={slider} onClick={slider && toMainScreen}>
+          <TodayContainer
+            slider={slider !== null}
+            onClick={() => slider && sliderData.set(null)}
+          >
             <TodayTitle title={weather.description && weather.description}>
               <p>{weather.main}</p>
               <p>{weather.dayName || "Today"}</p>

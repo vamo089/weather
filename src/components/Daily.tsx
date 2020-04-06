@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { daysWeather } from "./CityField";
+import { dailyWeather } from "./CityField";
+import { sliderData } from "./WeatherScreen";
 
 const Container = styled.div`
   display: flex;
@@ -41,7 +42,7 @@ const DayTemp = styled.div`
 `;
 
 export const Daily = () => {
-  const data = daysWeather.get();
+  const data = dailyWeather.get();
   return (
     <Container>
       {data &&
@@ -54,9 +55,7 @@ export const Daily = () => {
             <DayContainer
               key={i}
               title={description}
-              onClick={() => {
-                // openHourlySlider(i);
-              }}
+              onClick={() => sliderData.set(hourly)}
             >
               <DayTitle>
                 <p>{day.slice(0, 3)}</p>

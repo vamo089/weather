@@ -11,20 +11,16 @@ interface Main {
   humidity: number;
   temp_kf: number;
 }
+export interface DailyInterface {
+  dayName: string;
+  main: Main;
+  icon: string;
+  hour: string;
+  description: string;
+  temp: number;
+}
 
-type GetDaysWeatherRequest = (
-  city: string
-) => Promise<
-  | {
-      dayName: string;
-      main: Main;
-      icon: string;
-      hour: string;
-      description: string;
-      temp: number;
-    }
-  | any
->;
+type GetDaysWeatherRequest = (city: string) => Promise<DailyInterface | any>;
 
 interface GetDaysWeatherResponse {
   dt: number;
@@ -44,21 +40,14 @@ export const getDaysWeather: GetDaysWeatherRequest = async (city) => {
     .then(({ list }) => formDailyWeather(list));
 };
 
+export interface FormDailyWeatherResponse{
+  day: string;
+  hourly: [DailyInterface];
+}
+
 type formDailyWeatherType = (
   days: GetDaysWeatherResponse[]
-) => {
-  day: string;
-  hourly: [
-    {
-      dayName: string;
-      main: any;
-      icon: string;
-      hour: string;
-      description: string;
-      temp: number;
-    }
-  ];
-}[];
+) => FormDailyWeatherResponse[];
 
 export const formDailyWeather: formDailyWeatherType = (days) => {
   let dayFlag: any;

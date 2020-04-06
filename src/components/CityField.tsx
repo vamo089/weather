@@ -5,8 +5,12 @@ import { connect, useDispatch } from "react-redux";
 import Loader from "./Loader";
 import { getCitiesList } from "services/getCitiesList";
 import { GetCityWeatherRequestCallBack } from "services/getCityWeather";
-import { getDaysWeather } from "services/getDaysWeather";
+import {
+  FormDailyWeatherResponse,
+  getDaysWeather,
+} from "services/getDaysWeather";
 import { createState } from "store/createState";
+import { sliderData } from "components/WeatherScreen";
 
 const Container = styled.div`
   margin: auto;
@@ -47,7 +51,9 @@ const CityListItem = styled.li`
   }
 `;
 
-export const daysWeather = createState(null);
+export const dailyWeather = createState<FormDailyWeatherResponse[] | null>(
+  null
+);
 
 let CityField = () => {
   const dispatch = useDispatch();
@@ -87,8 +93,9 @@ let CityField = () => {
                 onClick={() => {
                   dispatch(change("city", "city", city));
                   setCityList(null);
+                  sliderData.set(null);
                   getDaysWeather(city).then((response) =>
-                    daysWeather.set(response)
+                    dailyWeather.set(response)
                   );
                 }}
               >

@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { change } from "redux-form";
 import { GetCityWeatherRequestCallBack } from "services/getCityWeather";
 import { getDaysWeather } from "services/getDaysWeather";
-import { daysWeather } from "components/CityField";
+import { dailyWeather } from "components/CityField";
 
 const GlobalStyle = createGlobalStyle`
   body{
@@ -62,7 +62,7 @@ const Background = styled.div`
 const initialization = async () => {
   const cityName = await detectCity().then(({ city }) => city);
   const cityWeatherData = await getCityWeather(cityName).then((data) => data);
-  getDaysWeather(cityName).then((response) => daysWeather.set(response));
+  getDaysWeather(cityName).then((response) => dailyWeather.set(response));
 
   if (cityWeatherData) {
     return { ...cityWeatherData, city: cityName };
