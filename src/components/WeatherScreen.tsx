@@ -6,7 +6,7 @@ import "../../node_modules/open-weather-icons/dist/css/open-weather-icons.css";
 import CityField from "./CityField";
 import { createState } from "store/createState";
 import { DailyInterface } from "services/getDaysWeather";
-import { weatherScreenData } from "App";
+import { weatherScreenData, weatherFetchData } from "App";
 
 const Container = styled.div`
   display: flex;
@@ -83,18 +83,31 @@ const Bottom = styled.div`
   margin-left: 10px;
 `;
 
-export const sliderData = createState<DailyInterface[] | null>(null);
+export const sliderData = createState<DailyInterface[] | []>([]);
+
+export interface WeatherScreenType {
+  dayName?: string;
+  description: string;
+  icon: string;
+  main: string;
+  temp: string | number;
+}
 
 export const WeatherScreen = () => {
   const weather = weatherScreenData.get();
   const slider = sliderData.get();
+  const weatherFetchedData = weatherFetchData.get();
+
   return (
     weather && (
       <Container>
         <Top>
           <TodayContainer
-            slider={slider !== null}
-            onClick={() => slider && sliderData.set(null)}
+            slider={!!slider.length}
+            onClick={() => {
+              slider && sliderData.set([]);
+              weatherScreenData.set(weatherFetchedData);
+            }}
           >
             <TodayTitle title={weather.description && weather.description}>
               <p>{weather.main}</p>
@@ -107,7 +120,7 @@ export const WeatherScreen = () => {
           </TodayContainer>
           <CityField />
         </Top>
-        <Bottom>{slider ? <Slider /> : <Daily />}</Bottom>
+        <Bottom>{slider.length ? <Slider /> : <Daily />}</Bottom>
       </Container>
     )
   );

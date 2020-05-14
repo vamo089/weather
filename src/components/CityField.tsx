@@ -93,7 +93,7 @@ let CityField = () => {
                 onClick={() => {
                   dispatch(change("city", "city", city));
                   setCityList(null);
-                  sliderData.set(null);
+                  sliderData.set([]);
                   getDaysWeather(city).then((response) =>
                     dailyWeather.set(response)
                   );

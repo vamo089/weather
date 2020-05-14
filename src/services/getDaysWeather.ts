@@ -13,7 +13,7 @@ interface Main {
 }
 export interface DailyInterface {
   dayName: string;
-  main: Main;
+  main: string;
   icon: string;
   hour: string;
   description: string;

@@ -1,13 +1,16 @@
 import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Normalize } from "styled-normalize";
-import { WeatherScreen } from "components/WeatherScreen";
+import {
+  WeatherScreen,
+  WeatherScreenType,
+  sliderData,
+} from "components/WeatherScreen";
 import { detectCity } from "services/detectCity";
 import { getCityWeather } from "services/getCityWeather";
 import { createState } from "store/createState";
 import { useDispatch } from "react-redux";
 import { change } from "redux-form";
-import { GetCityWeatherRequestCallBack } from "services/getCityWeather";
 import { getDaysWeather } from "services/getDaysWeather";
 import { dailyWeather } from "components/CityField";
 
@@ -59,6 +62,9 @@ const Background = styled.div`
   border-left: solid rgba(255, 255, 255, 0.5);
 `;
 
+export const weatherScreenData = createState<WeatherScreenType | null>(null);
+export const weatherFetchData = createState<WeatherScreenType | null>(null);
+
 const initialization = async () => {
   const cityName = await detectCity().then(({ city }) => city);
   const cityWeatherData = await getCityWeather(cityName).then((data) => data);
@@ -69,17 +75,23 @@ const initialization = async () => {
   }
 };
 
-export const weatherScreenData = createState<GetCityWeatherRequestCallBack | null>(
-  null
-);
-
 export const App = () => {
+  const slider = sliderData.get();
   const dispatch = useDispatch();
+  const setWeatherData = (data: WeatherScreenType) => [weatherScreenData.set(data), weatherFetchData.set(data)];
   initialization().then((response) => {
     if (response) {
       const { city } = response;
-      weatherScreenData.set(response);
+      setWeatherData(response);
       dispatch(change("city", "city", city));
+
+      setInterval(() => {
+        getCityWeather(city).then((data) => {
+          if (data && slider) {
+            setWeatherData(data);
+          }
+        });
+      }, 60000);
     }
   });
 
